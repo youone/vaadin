@@ -33,7 +33,11 @@ public class VaadintestUI extends UI {
 				layout.addComponent(new Label("Thank you for clicking"));
 			}
 		});
+		
+		JavaScriptComponent javaScriptComponent = new JavaScriptComponent();
+
 		layout.addComponent(button);
+		layout.addComponent(javaScriptComponent);
 	}
 
 }
