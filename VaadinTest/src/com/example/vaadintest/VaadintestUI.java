@@ -10,6 +10,8 @@ import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.Slider;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
@@ -35,11 +37,21 @@ public class VaadintestUI extends UI {
 			}
 		});
 		
+		Slider slider = new Slider();
+		slider.setImmediate(true);
+		slider.setMin(0.0);
+		slider.setMax(100.0);
+		slider.setValue(50.0);
+//		slider.setImmediate(true);
+ 
+//		slider.addValueChangeListener(e -> Notification.show("Value changed:", String.valueOf(e.getProperty().getValue()), Type.TRAY_NOTIFICATION));
+		slider.addValueChangeListener(e -> System.out.println("Value changed: " + String.valueOf(e.getProperty().getValue())));
+		
 		JsComponent jsComponent = new JsComponent();
 		jsComponent.setWidth(1000, Sizeable.Unit.PIXELS);
 		jsComponent.setHeight(700, Sizeable.Unit.PIXELS);
 
-//		layout.addComponent(button);
+		layout.addComponent(slider);
 		layout.addComponent(jsComponent);
 	}
 

@@ -7,13 +7,17 @@ import com.vaadin.ui.JavaScriptFunction;
 
 import elemental.json.JsonArray;
 
-@StyleSheet({"vaadin://css/scatter.css"})
+@StyleSheet({
+	"vaadin://css/scatter.css",
+	"https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css"
+	})
 @JavaScript({
 	"vaadin://js/jsComponent.js", 
 	"https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js",
 	"https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js",
 	"http://openlayers.org/en/v3.14.2/build/ol.js"
 	})
+
 public class JsComponent extends AbstractJavaScriptComponent {
 
 	public JsComponent() {
