@@ -4,6 +4,7 @@ import javax.servlet.annotation.WebServlet;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.server.Sizeable;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Button;
@@ -34,10 +35,12 @@ public class VaadintestUI extends UI {
 			}
 		});
 		
-		JavaScriptComponent javaScriptComponent = new JavaScriptComponent();
+		JsComponent jsComponent = new JsComponent();
+		jsComponent.setWidth(1000, Sizeable.Unit.PIXELS);
+		jsComponent.setHeight(700, Sizeable.Unit.PIXELS);
 
-		layout.addComponent(button);
-		layout.addComponent(javaScriptComponent);
+//		layout.addComponent(button);
+		layout.addComponent(jsComponent);
 	}
 
 }
