@@ -12,7 +12,7 @@ com_example_vaadintest_ColorMatrix = function() {
 	
 
 	function heatMapColorforValue(value){
-		  var h = (1.0 - value) * 240
+		  var h = value * 360;
 		  return "hsl(" + h + ", 100%, 50%)";
 		}
 
@@ -20,7 +20,9 @@ com_example_vaadintest_ColorMatrix = function() {
 	var colorMatrixDiv = $("<div>").appendTo(componentElement);
 
 	var lineData = [
+	                {'x':0,  'y':0,  'v':0.0},
 	                {'x':10,  'y':10,  'v':0.1},
+	                {'x':15,  'y':15,  'v':0.15},
 	                {'x':20, 'y':20, 'v':0.2},
 	                {'x':30, 'y':30, 'v':0.3},
 	                {'x':40, 'y':40, 'v':0.4},

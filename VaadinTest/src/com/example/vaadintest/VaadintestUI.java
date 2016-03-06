@@ -36,7 +36,7 @@ public class VaadintestUI extends UI {
 
 		JsComponent jsComponent = new JsComponent();
 		jsComponent.setWidth(1000, Sizeable.Unit.PIXELS);
-		jsComponent.setHeight(700, Sizeable.Unit.PIXELS);
+		jsComponent.setHeight(550, Sizeable.Unit.PIXELS);
 
 		Button button = new Button("Set Data");
 		button.addClickListener(new Button.ClickListener() {
