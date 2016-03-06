@@ -16,7 +16,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 @SuppressWarnings("serial")
-@Theme("vaadintest")
+@Theme("reindeer")
 public class VaadintestUI extends UI {
 
 	@WebServlet(value = "/*", asyncSupported = true)
@@ -30,10 +30,18 @@ public class VaadintestUI extends UI {
 		layout.setMargin(true);
 		setContent(layout);
 
-		Button button = new Button("Click Me");
+		ColorMatrix colorMatrix = new ColorMatrix();
+		colorMatrix.setWidth(600, Sizeable.Unit.PIXELS);
+		colorMatrix.setHeight(300, Sizeable.Unit.PIXELS);
+
+		JsComponent jsComponent = new JsComponent();
+		jsComponent.setWidth(1000, Sizeable.Unit.PIXELS);
+		jsComponent.setHeight(700, Sizeable.Unit.PIXELS);
+
+		Button button = new Button("Set Data");
 		button.addClickListener(new Button.ClickListener() {
 			public void buttonClick(ClickEvent event) {
-				layout.addComponent(new Label("Thank you for clicking"));
+				jsComponent.setScatterData();
 			}
 		});
 		
@@ -47,12 +55,9 @@ public class VaadintestUI extends UI {
 //		slider.addValueChangeListener(e -> Notification.show("Value changed:", String.valueOf(e.getProperty().getValue()), Type.TRAY_NOTIFICATION));
 		slider.addValueChangeListener(e -> System.out.println("Value changed: " + String.valueOf(e.getProperty().getValue())));
 		
-		JsComponent jsComponent = new JsComponent();
-		jsComponent.setWidth(1000, Sizeable.Unit.PIXELS);
-		jsComponent.setHeight(700, Sizeable.Unit.PIXELS);
-
-		layout.addComponent(slider);
+		layout.addComponent(button);
 		layout.addComponent(jsComponent);
+		layout.addComponent(colorMatrix);
 	}
 
 }

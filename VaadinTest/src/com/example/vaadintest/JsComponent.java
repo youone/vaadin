@@ -1,5 +1,11 @@
 package com.example.vaadintest;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
+
+import org.json.simple.JSONObject;
+
 import com.vaadin.annotations.JavaScript;
 import com.vaadin.annotations.StyleSheet;
 import com.vaadin.ui.AbstractJavaScriptComponent;
@@ -17,7 +23,6 @@ import elemental.json.JsonArray;
 	"https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js",
 	"http://openlayers.org/en/v3.14.2/build/ol.js"
 	})
-
 public class JsComponent extends AbstractJavaScriptComponent {
 
 	public JsComponent() {
@@ -34,16 +39,55 @@ public class JsComponent extends AbstractJavaScriptComponent {
 	    });
 
 	}
-
 	
 	public void change() {
 		getState().theText = "hhhejsan";
 		this.callFunction("aJsFunction", "arg1");
 	}
 
+	
+	public class ScatterDataPoint {
+
+		public Double lon = 0D;
+		public Double lat = 0D;
+		public Double size = 0D;
+		
+		ScatterDataPoint(Double lon, Double lat, Double size) {
+			this.lon = lon;
+			this.lat = lat;
+			this.size = size;
+		}
+	}
+
+	private ArrayList<ArrayList<ScatterDataPoint>> generateScatterMatrix(int nPointsX, int nPointsY) {
+
+		ArrayList<ScatterDataPoint> scatterPointsY = new ArrayList<ScatterDataPoint>();
+		ArrayList<ArrayList<ScatterDataPoint>>  scatterPointsXY = new ArrayList<ArrayList<ScatterDataPoint>>();
+
+		Double offset = 10 * Math.random();
+		for(int iPointX=0; iPointX<nPointsX; iPointX++){
+			scatterPointsY.clear();
+			for(int iPointY=0; iPointY<nPointsY; iPointY++){
+				Double lon = 3 * Math.random() + 10 + offset;
+				Double lat = 5 * Math.random() + 50 + offset;
+				Double size = Math.random();
+				scatterPointsY.add(new ScatterDataPoint(lon, lat, size));
+			}
+			scatterPointsXY.add(scatterPointsY);
+		}
+		return scatterPointsXY;
+	}
+
+
+	public void setScatterData() {
+		 getState().scatterData = generateScatterMatrix(10,195*5);
+	}
+
 	 @Override
 	 protected JsComponentState getState() {
 		 return (JsComponentState) super.getState();
 	 }
+
+
 
 }

@@ -3,77 +3,110 @@ com_example_vaadintest_JsComponent = function() {
 	function latlong2xy(latlong) {
 		return ol.proj.transform(latlong, "EPSG:4326", "EPSG:3857");
 		//return ol.proj.transform(latlong, "EPSG:4326", "EPSG:900913");
-	}
-		
-	//var theMap = null;
-	var coordinates = null;
-	var offset = 0;
+	};
 
-	var state = 'init';
+	function generateScatterPoints(nPoints) {
+		var scatterPoints = [];
+		var offset = 10 * Math.random();
+		for(var iPoint=0; iPoint<nPoints; iPoint++){
+			var scatterPoint = {};
+			var lon = 3 * Math.random() + 10 + offset;
+			var lat = 5 * Math.random() + 50 + offset;
+			var size = Math.random();
+			
+			scatterPoint.coordinates = [lon, lat];
+			scatterPoint.size = size;
+			scatterPoints.push(scatterPoint);
+		}
+		return scatterPoints;
+	}
+	
+	function generateScatterData(nPoints) {
+		
+		var scatterData = [];
+
+		scatterData.push({
+			points: generateScatterPoints(nPoints),
+			fillStyle: 'blue'
+		});
+		scatterData.push({
+			points: generateScatterPoints(nPoints),
+			fillStyle: 'red'
+		});
+		scatterData.push({
+			points: generateScatterPoints(nPoints),
+			fillStyle: 'black'
+		});
+
+		return scatterData;
+	};
 
 	this.aJsFunction = function(arg) {
 		console.log(arg);
 	};
 
+	
+	this.setScatterData = function(arg) {
+		console.log(JSON.parse(arg));
+	};
 
-	$.widget( "custom.scatter", {
+	$.widget("custom.scatterMap", {
 
-		property: 'haj',
 		theMap: null,
-		scatterOverlay: null,
+		scatterCanvas: null,
 		canvasLayer: null,
-		
-		_create: function() {
+		scatterData: null,
+		state: "init",
 
+		_create: function() {
 			var thisWidget = this;
-			
+
 			this.element.addClass("scatter").attr("id","map").css("position","relative");
 
-			var theCanvas = null;
+			//should be called when the canvas needs to be redrawn
+			var canvasFunction = function(extent, resolution, pixelRatio, canvasSize, projection) {
 
-			var canvasFunction = function(extent, resolution, pixelRatio, size, projection) {
-//				console.log(extent);
-				console.log('canvas function');
+				var context = thisWidget.scatterCanvas[0].getContext('2d');
+				
+				context.clearRect(0, 0, thisWidget.scatterCanvas[0].width, thisWidget.scatterCanvas[0].height);
 
-				var context = theCanvas[0].getContext('2d');
-				context.clearRect(0, 0, theCanvas[0].width, theCanvas[0].height);
+				for (iData in thisWidget.scatterData) {
 
-				var fillStyle = '';
-				if (state == 'init') {
-					fillStyle = 'blue';
-					state = 'state1';
-					console.log('filling blue')
-				}
-				else {
-					fillStyle = 'black';
-				}
+					var points = thisWidget.scatterData[iData].points;
+					var fillStyle = thisWidget.scatterData[iData].fillStyle;
 
-				for(ic in coordinates) {
-					
-					
-					if (coordinates[ic][0] > extent[0] & 
-						coordinates[ic][0] < extent[2] &
-						coordinates[ic][1] > extent[1] & 
-						coordinates[ic][1] < extent[3]) {
-						canvasX = size[0] * (coordinates[ic][0] - extent[0])/(extent[2] - extent[0]);
-						canvasY = size[1] * (extent[3] - coordinates[ic][1])/(extent[3] - extent[1]);
-						context.globalAlpha = 0.5;
-						context.beginPath();
-						context.arc(canvasX, canvasY, 5, 0, 2 * Math.PI, false);
-						context.fillStyle = fillStyle;
-						context.fill();
+					for(ip in points) {
+
+						var geoxy = ol.proj.transform(points[ip].coordinates, "EPSG:4326", "EPSG:3857");
+						var geox = geoxy[0];
+						var geoy = geoxy[1];
+						var markerSize = points[ip].size;
+						
+						if (geox > extent[0] & geox < extent[2] &
+							geoy > extent[1] & geoy < extent[3]) {
+							
+							//transform from geo to canvas coordinates
+							canvasX = canvasSize[0] * (geox - extent[0])/(extent[2] - extent[0]);
+							canvasY = canvasSize[1] * (extent[3] - geoy)/(extent[3] - extent[1]);
+							
+							context.globalAlpha = 0.5;
+							context.beginPath();
+							context.arc(canvasX, canvasY, 5 * markerSize, 0, 2 * Math.PI, false);
+							context.fillStyle = fillStyle;
+							context.fill();
 						}
+					}
 				}
-				return theCanvas[0];
-			}
+				return thisWidget.scatterCanvas[0];
+			};
 
 			var vectorSource = new ol.source.Vector();
 			var vectorLayer = new ol.layer.Vector({
 				source : vectorSource
 			});
-			var initcoord = latlong2xy([17.976554, 59.339169]);
-			circle = new ol.geom.Circle(initcoord, 1e5);
-//		    vectorSource.addFeature(new ol.Feature(circle));
+//			var initcoord = latlong2xy([17.976554, 59.339169]);
+//			circle = new ol.geom.Circle(initcoord, 1e5);
+//			vectorSource.addFeature(new ol.Feature(circle));
 
 			var mapLayer = new ol.layer.Tile({
 				source : new ol.source.OSM()
@@ -87,13 +120,12 @@ com_example_vaadintest_JsComponent = function() {
 				})
 			});
 
-			
 			var mwz = new ol.interaction.MouseWheelZoom();
 			var dp = new ol.interaction.DragPan({"kinetic": undefined});
 			var mapInteractions = [];
 			mapInteractions.push(mwz);
 			mapInteractions.push(dp);
-			
+
 			this.theMap = new ol.Map({
 				interactions : mapInteractions,
 				layers : [mapLayer, this.canvasLayer, vectorLayer],
@@ -105,76 +137,53 @@ com_example_vaadintest_JsComponent = function() {
 				})
 			});
 
-			theCanvas = $('<canvas id="scatterCanvas" width="' + this.theMap.getSize()[0] + '" height="' +  this.theMap.getSize()[1] + '">');
+			this.scatterCanvas = $('<canvas id="scatterCanvas" width="' + this.theMap.getSize()[0] + '" height="' +  this.theMap.getSize()[1] + '">');
 
-//			setTimeout(function(){
-//				var context = theCanvas[0].getContext('2d');
-//				context.clearRect(0, 0, theCanvas[0].width, theCanvas[0].height);
-//				thisWidget.canvasLayer.getSource().changed();
-//				console.log("source changed");
-//			}, 5000);
-			
-			this.theMap.on("moveend", function() {
-				  console.log('Dragging...');
-			});
-			
+//			this.theMap.on("moveend", function() {
+//			console.log('Dragging...');
+//			});
+
 			var mapSize = this.theMap.getSize();
-			this.scatterOverlay = $('<canvas id="scatterOverlay" width="' + mapSize[0] + '" height="' +  mapSize[1] + '" style="position:absolute; top:0; pointer-events:none;">');
-			this.element.append(this.scatterOverlay);
-			var ctx = this.scatterOverlay[0].getContext('2d');
-			ctx.globalAlpha = 0.5;
-			ctx.beginPath();
-			ctx.arc(100, 100, 10, 0, 2 * Math.PI, false);
-			ctx.fillStyle = 'red';
-			ctx.fill();
-
 		},
-		
+
 		updateCanvas: function() {
 			this.canvasLayer.getSource().changed();
 		},
-		
+
+		setData: function(data) {
+			this.scatterData = data;
+			this.canvasLayer.getSource().changed();
+		}
+
 	});
 
-	var e = $(this.getElement());
-	var div = $("<div>");
-	e.append(div);
-	div.scatter();
-	
+	var componentElement = $(this.getElement());
+	var scatterMapDiv = $("<div>").appendTo(componentElement).scatterMap();
 
-//	var minX = 602935.2791134701;
-//	var maxX = 2437423.9579577004;
-//	var minY = 6346719.332574755;
-//	var maxY = 7274970.604069935;
-//	coordinates = [];
-//	for (var iData=0; iData<100; iData++) {
-//		var longi = minX + Math.random()*(maxX-minX);
-//		var lati = minY + Math.random()*(maxY-minY);
-//		coordinates.push({lon: longi, lat: lati});
-//	}
-	EARTH_RADIUS = 6371000;
-	coordinates = [];
-	coordinates.push(latlong2xy([17.976554, 59.339169]));
-	coordinates.push(latlong2xy([18, 60]));
-	
+	scatterData = [];
+	for (var iData=0; iData<100; iData++) {
+		scatterData.push(generateScatterData(1000));
+	}
+	scatterMapDiv.scatterMap('setData', scatterData[0]);
+
 	var slider = $("<div>").slider({
-		slide: function() {
-			offset = offset + 1;
-			div.scatter('updateCanvas');
+		min: 0,
+		max: 99,
+		step: 1,
+		slide: function(event, ui) {
+			scatterMapDiv.scatterMap('setData', scatterData[ui.value]);
 		}
 	});
-	e.append(slider);
-	
+	componentElement.append(slider);
+
 	var self = this;
-	div.click(function(){
+	scatterMapDiv.click(function(){
 		self.onClick("{key: 'value'}");
 	});
 
 	this.onStateChange = function() {
-//		div.scatter();
-		//	  div.html(this.getState().theText);
-//		console.log(this.getState().theText);
-//		console.log(this.getState().SomeProperty);
+		console.log('state changed');
+		console.log(this.getState().scatterData);
 	}
 
 }
