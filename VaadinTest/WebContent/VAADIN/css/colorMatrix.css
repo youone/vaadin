@@ -24,8 +24,6 @@
 	fill:none;
 }   
 
-
-
 .overlay {
   fill: none;
   pointer-events: all;
@@ -35,4 +33,9 @@
 #imageView { border: 1px solid #000; }
 #imageTemp { position: absolute; top: 1px; left: 1px; }
 
+.viewport {
+    stroke: grey;
+    fill: blue;
+    fill-opacity: 0.2;
+}
     

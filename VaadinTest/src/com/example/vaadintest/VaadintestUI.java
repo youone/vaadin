@@ -31,8 +31,8 @@ public class VaadintestUI extends UI {
 		setContent(layout);
 
 		ColorMatrix colorMatrix = new ColorMatrix();
-		colorMatrix.setWidth(600, Sizeable.Unit.PIXELS);
-		colorMatrix.setHeight(300, Sizeable.Unit.PIXELS);
+		colorMatrix.setWidth(800, Sizeable.Unit.PIXELS);
+		colorMatrix.setHeight(500, Sizeable.Unit.PIXELS);
 
 		JsComponent jsComponent = new JsComponent();
 		jsComponent.setWidth(1000, Sizeable.Unit.PIXELS);
@@ -41,7 +41,8 @@ public class VaadintestUI extends UI {
 		Button button = new Button("Set Data");
 		button.addClickListener(new Button.ClickListener() {
 			public void buttonClick(ClickEvent event) {
-				jsComponent.setScatterData();
+//				jsComponent.setScatterData();
+				colorMatrix.makeNewImage();
 			}
 		});
 		
@@ -55,9 +56,9 @@ public class VaadintestUI extends UI {
 //		slider.addValueChangeListener(e -> Notification.show("Value changed:", String.valueOf(e.getProperty().getValue()), Type.TRAY_NOTIFICATION));
 		slider.addValueChangeListener(e -> System.out.println("Value changed: " + String.valueOf(e.getProperty().getValue())));
 		
+		layout.addComponent(colorMatrix);
 		layout.addComponent(button);
 		layout.addComponent(jsComponent);
-		layout.addComponent(colorMatrix);
 	}
 
 }

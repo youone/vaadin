@@ -15,4 +15,22 @@ import com.vaadin.ui.AbstractJavaScriptComponent;
 })
 public class ColorMatrix extends AbstractJavaScriptComponent {
 
+	ImageBuilder imageBuilder = new ImageBuilder();
+
+	ColorMatrix() {
+		getState().imageData = imageBuilder.imageData;
+	}
+
+	public void makeNewImage() {
+		imageBuilder.makeNewImage();
+		getState().imageData = imageBuilder.imageData;
+	}
+
+	
+	 @Override
+	 protected ColorMatrixState getState() {
+		 return (ColorMatrixState) super.getState();
+	 }
+
+
 }
