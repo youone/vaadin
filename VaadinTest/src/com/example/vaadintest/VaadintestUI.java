@@ -20,8 +20,6 @@ import com.vaadin.ui.Slider;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
-import bildtest.SomeClass;
-
 @SuppressWarnings("serial")
 @Theme("reindeer")
 public class VaadintestUI extends UI {
