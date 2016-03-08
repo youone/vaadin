@@ -13,11 +13,14 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Slider;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+
+import bildtest.SomeClass;
 
 @SuppressWarnings("serial")
 @Theme("reindeer")
@@ -113,17 +116,19 @@ public class VaadintestUI extends UI {
 
 	@Override
 	protected void init(VaadinRequest request) {
-		final VerticalLayout layout = new VerticalLayout();
+		final VerticalLayout vLayout = new VerticalLayout();
+		final HorizontalLayout layout = new HorizontalLayout();
 		layout.setMargin(true);
-		setContent(layout);
-
+		vLayout.setMargin(true);
+		setContent(vLayout);
+		
 		ColorMatrix colorMatrix = new ColorMatrix();
-		colorMatrix.setWidth(800, Sizeable.Unit.PIXELS);
-		colorMatrix.setHeight(500, Sizeable.Unit.PIXELS);
+		colorMatrix.setWidth(500, Sizeable.Unit.PIXELS);
+		colorMatrix.setHeight(450, Sizeable.Unit.PIXELS);
 
 		JsComponent jsComponent = new JsComponent();
-		jsComponent.setWidth(1000, Sizeable.Unit.PIXELS);
-		jsComponent.setHeight(550, Sizeable.Unit.PIXELS);
+		jsComponent.setWidth(600, Sizeable.Unit.PIXELS);
+		jsComponent.setHeight(450, Sizeable.Unit.PIXELS);
 
 		Button button = new Button("Set Data");
 		button.addClickListener(new Button.ClickListener() {
@@ -159,9 +164,11 @@ public class VaadintestUI extends UI {
 //		slider.addValueChangeListener(e -> Notification.show("Value changed:", String.valueOf(e.getProperty().getValue()), Type.TRAY_NOTIFICATION));
 //		slider.addValueChangeListener(e -> System.out.println("Value changed: " + String.valueOf(e.getProperty().getValue())));
 		
+		vLayout.addComponent(button);
+		vLayout.addComponent(layout);
 		layout.addComponent(colorMatrix);
-		layout.addComponent(button);
 		layout.addComponent(jsComponent);
+		
 	}
 
 }

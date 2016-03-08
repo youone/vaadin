@@ -10,41 +10,41 @@ com_example_vaadintest_JsComponent = function() {
 		//return ol.proj.transform(latlong, "EPSG:4326", "EPSG:900913");
 	};
 	
-	function generateScatterPoints(nPoints) {
-		var scatterPoints = [];
-		var offset = 10 * Math.random();
-		for(var iPoint=0; iPoint<nPoints; iPoint++){
-			var scatterPoint = {};
-			var lon = 3 * Math.random() + 10 + offset;
-			var lat = 5 * Math.random() + 50 + offset;
-			var size = Math.random();
-			
-			scatterPoint.coordinates = [lon, lat];
-			scatterPoint.size = size;
-			scatterPoints.push(scatterPoint);
-		}
-		return scatterPoints;
-	}
-	
-	function generateScatterData(nPoints) {
-		
-		var scatterData = [];
-
-		scatterData.push({
-			points: generateScatterPoints(nPoints),
-			fillStyle: 'blue'
-		});
-		scatterData.push({
-			points: generateScatterPoints(nPoints),
-			fillStyle: 'red'
-		});
-		scatterData.push({
-			points: generateScatterPoints(nPoints),
-			fillStyle: 'black'
-		});
-
-		return scatterData;
-	};
+//	function generateScatterPoints(nPoints) {
+//		var scatterPoints = [];
+//		var offset = 10 * Math.random();
+//		for(var iPoint=0; iPoint<nPoints; iPoint++){
+//			var scatterPoint = {};
+//			var lon = 3 * Math.random() + 10 + offset;
+//			var lat = 5 * Math.random() + 50 + offset;
+//			var size = Math.random();
+//			
+//			scatterPoint.coordinates = [lon, lat];
+//			scatterPoint.size = size;
+//			scatterPoints.push(scatterPoint);
+//		}
+//		return scatterPoints;
+//	}
+//	
+//	function generateScatterData(nPoints) {
+//		
+//		var scatterData = [];
+//
+//		scatterData.push({
+//			points: generateScatterPoints(nPoints),
+//			fillStyle: 'blue'
+//		});
+//		scatterData.push({
+//			points: generateScatterPoints(nPoints),
+//			fillStyle: 'red'
+//		});
+//		scatterData.push({
+//			points: generateScatterPoints(nPoints),
+//			fillStyle: 'black'
+//		});
+//
+//		return scatterData;
+//	};
 	
 	$.widget("custom.scatterMap", {
 
@@ -57,7 +57,7 @@ com_example_vaadintest_JsComponent = function() {
 		_create: function() {
 			var thisWidget = this;
 
-			this.element.addClass("scatter").attr("id","map").css("position","relative");
+			this.element.addClass("scatter").attr("id","map");//.css("position","relative");
 
 			//should be called when the canvas needs to be redrawn
 			var canvasFunction = function(extent, resolution, pixelRatio, canvasSize, projection) {
@@ -120,6 +120,7 @@ com_example_vaadintest_JsComponent = function() {
 
 			var mwz = new ol.interaction.MouseWheelZoom();
 			var dp = new ol.interaction.DragPan({"kinetic": undefined});
+			var dp = new ol.interaction.DragPan();
 			var mapInteractions = [];
 			mapInteractions.push(mwz);
 			mapInteractions.push(dp);
@@ -130,8 +131,8 @@ com_example_vaadintest_JsComponent = function() {
 				controls: ol.control.defaults({attribution: false, zoom: false, rotate: false}),
 				target: 'map',
 				view: new ol.View({
-					center: [0, 0],
-					zoom: 2
+					center: [1000000, 7000000],
+					zoom: 3
 				})
 			});
 
@@ -157,7 +158,7 @@ com_example_vaadintest_JsComponent = function() {
 	});
 
 	var componentElement = $(this.getElement());
-	var scatterMapDiv = $("<div>").appendTo(componentElement).scatterMap();
+	var scatterMapDiv = $("<div>").css({'width':'600','height':'450'}).appendTo(componentElement).scatterMap();
 
 //	scatterData = [];
 //	for (var iData=0; iData<100; iData++) {
@@ -165,20 +166,20 @@ com_example_vaadintest_JsComponent = function() {
 //	}
 //	scatterMapDiv.scatterMap('setData', scatterData[0]);
 
-	var slider = $("<div>").slider({
-		min: 0,
-		max: 99,
-		step: 1,
-		slide: function(event, ui) {
-			scatterMapDiv.scatterMap('setData', scatterData[ui.value]);
-		}
-	});
-	componentElement.append(slider);
+//	var slider = $("<div>").slider({
+//		min: 0,
+//		max: 99,
+//		step: 1,
+//		slide: function(event, ui) {
+//			scatterMapDiv.scatterMap('setData', scatterData[ui.value]);
+//		}
+//	});
+//	componentElement.append(slider);
 
-	var self = this;
-	scatterMapDiv.click(function(){
-		self.onClick("{key: 'value'}");
-	});
+//	var self = this;
+//	scatterMapDiv.click(function(){
+//		self.onClick("{key: 'value'}");
+//	});
 	
 	this.setRange = function(range){
 		data12 = thisVaadinComponent.mapData['title1-title2'].slice(Math.floor(range[0]), Math.floor(range[1]));
@@ -190,12 +191,11 @@ com_example_vaadintest_JsComponent = function() {
 		points23 = [];
 		for (id in data12) {
 			for (id2 in data12[id]) {
-//				points12.push({coordinates:data12[id][id2], size:0.5});
-//				points13.push({coordinates:data13[id][id2], size:0.5});
-//				points23.push({coordinates:data23[id][id2], size:0.5});
-				points12.push(data12[id][id2]);
-				points13.push(data13[id][id2]);
-				points23.push(data23[id][id2]);
+				if (data12[id][id2][2] > 9000) {
+					points12.push(data12[id][id2]);
+					points13.push(data13[id][id2]);
+					points23.push(data23[id][id2]);
+				}
 			}
 		}
 		
