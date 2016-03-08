@@ -10,29 +10,12 @@
     font-family: 'Arial';
     font-size: 10px;
 }
-.tick
+
+/* .tick
 {
     stroke-dasharray: 1, 2;
 }
-.bar
-{
-    fill: FireBrick;
-}
-
-.zoomOverlay {
-	pointer-events: all;
-	fill:none;
-}   
-
-.overlay {
-  fill: none;
-  pointer-events: all;
-}
-
-#container { position: relative; }
-#imageView { border: 1px solid #000; }
-#imageTemp { position: absolute; top: 1px; left: 1px; }
-
+ */
 .viewport {
     stroke: grey;
     fill: blue;

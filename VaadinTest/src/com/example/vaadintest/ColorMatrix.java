@@ -1,5 +1,8 @@
 package com.example.vaadintest;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import com.vaadin.annotations.JavaScript;
 import com.vaadin.annotations.StyleSheet;
 import com.vaadin.ui.AbstractJavaScriptComponent;
@@ -16,21 +19,31 @@ import com.vaadin.ui.AbstractJavaScriptComponent;
 public class ColorMatrix extends AbstractJavaScriptComponent {
 
 	ImageBuilder imageBuilder = new ImageBuilder();
+	public AllData allData = new AllData();
 
-	ColorMatrix() {
-		getState().imageData = imageBuilder.imageData;
+	ColorMatrix() {		
 	}
 
-	public void makeNewImage() {
-		imageBuilder.makeNewImage();
-		getState().imageData = imageBuilder.imageData;
+	public class AllData {
+		public HashMap<String, String> matrixPngData = new HashMap<String, String>();
+		public HashMap<String, ArrayList<ArrayList<ArrayList<Float>>>> mapData = new HashMap<String, ArrayList<ArrayList<ArrayList<Float>>>>();
+	}
+		
+	public void addMatrixData(ArrayList<HashMap<String, Float[][]>> colorMatrixData) {
+		HashMap<String, String> matrixPngData = new HashMap<String, String>();
+		matrixPngData.put("title1", imageBuilder.buildImage(colorMatrixData.get(0)));
+		matrixPngData.put("title2", imageBuilder.buildImage(colorMatrixData.get(1)));
+		matrixPngData.put("title3", imageBuilder.buildImage(colorMatrixData.get(2)));
+		allData.matrixPngData = matrixPngData;
 	}
 
-	
+	public void updateState() {
+		getState().allData = allData;
+	}
+
 	 @Override
 	 protected ColorMatrixState getState() {
 		 return (ColorMatrixState) super.getState();
 	 }
-
 
 }
