@@ -32,5 +32,9 @@
 @mixin vaadintest {
   @include valo;
 
+.v-ui {
+overflow: hidden;
+}
   // Insert your own theme rules here
+    
 }
