@@ -1,4 +1,4 @@
-package com.example.vaadintest;
+package com.example.vaadintest.tools;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 
-import com.example.vaadintest.ImageResizer;
+import com.example.vaadintest.tools.ImageResizer;
 
 public class ImageBuilder {
 
@@ -19,7 +19,7 @@ public class ImageBuilder {
 	BufferedImage bufferedimage = null;
 	BufferedImage resizedImage = null;
 
-	ImageBuilder() {
+	public ImageBuilder() {
 		makeNewImage();
 	}
 

@@ -1,4 +1,4 @@
-package com.example.vaadintest;
+package com.example.vaadintest.jscomponents;
 
 import java.util.ArrayList;
 import java.util.HashMap;

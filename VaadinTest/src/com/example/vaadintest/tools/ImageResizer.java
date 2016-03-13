@@ -1,4 +1,4 @@
-package com.example.vaadintest;
+package com.example.vaadintest.tools;
 
 import java.awt.Graphics2D;
 import java.awt.Image;

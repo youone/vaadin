@@ -1,4 +1,4 @@
-package com.example.vaadintest;
+package com.example.vaadintest.ui;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -6,6 +6,8 @@ import java.util.HashMap;
 
 import javax.servlet.annotation.WebServlet;
 
+import com.example.vaadintest.jscomponents.ColorMatrix;
+import com.example.vaadintest.jscomponents.JsComponent;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.Sizeable;

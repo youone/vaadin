@@ -1,4 +1,4 @@
-com_example_vaadintest_JsComponent = function() {
+com_example_vaadintest_jscomponents_JsComponent = function() {
 
 	var thisVaadinComponent = this;
 	
@@ -220,7 +220,7 @@ com_example_vaadintest_JsComponent = function() {
 	this.setMapData = function(mapData){
 		console.log('setting mapData');
 		thisVaadinComponent.mapData = mapData;
-//		console.log(mapData);
+		console.log(mapData);
 	};
 
 
@@ -229,6 +229,6 @@ com_example_vaadintest_JsComponent = function() {
 //		console.log(this.getState().scatterData);
 	};
 
-	com_example_vaadintest_JsComponent_instance = this;
+	com_example_vaadintest_jscomponents_JsComponent_instance = this;
 
 }

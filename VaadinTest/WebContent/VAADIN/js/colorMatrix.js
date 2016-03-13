@@ -1,4 +1,4 @@
-com_example_vaadintest_ColorMatrix = function() {
+com_example_vaadintest_jscomponents_ColorMatrix = function() {
 
 	var thisVaadinComponent = this;
 	
@@ -98,7 +98,7 @@ com_example_vaadintest_ColorMatrix = function() {
 		colorImageMatrix1.colorImageMatrix('setViewportExtent', data.extent);
 		colorImageMatrix2.colorImageMatrix('setViewportExtent', data.extent);
 		colorImageMatrix3.colorImageMatrix('setViewportExtent', data.extent);
-		com_example_vaadintest_JsComponent_instance.setRange(data.extent, thisVaadinComponent.getState().allData.mapData);
+		com_example_vaadintest_jscomponents_JsComponent_instance.setRange(data.extent, thisVaadinComponent.getState().allData.mapData);
 	});
 	
 	var getNewImageData = function(title) {
@@ -125,9 +125,9 @@ com_example_vaadintest_ColorMatrix = function() {
 
 	this.onStateChange = function() {
 
-		if (typeof com_example_vaadintest_JsComponent_instance != 'undefined') {
+		if (typeof com_example_vaadintest_jscomponents_JsComponent_instance != 'undefined') {
 
-			com_example_vaadintest_JsComponent_instance.setMapData(thisVaadinComponent.getState().allData.mapData)
+			com_example_vaadintest_jscomponents_JsComponent_instance.setMapData(thisVaadinComponent.getState().allData.mapData)
 
 			colorImageMatrix1.colorImageMatrix('updateImage');
 			colorImageMatrix2.colorImageMatrix('updateImage');
@@ -158,6 +158,6 @@ com_example_vaadintest_ColorMatrix = function() {
 //	colorMatrixDiv2.colorMatrix();
 //	colorMatrixDiv3.colorMatrix();
 
-	com_example_vaadintest_ColorMatrix_instance = this;
+	com_example_vaadintest_jscomponents_ColorMatrix_instance = this;
 
 }

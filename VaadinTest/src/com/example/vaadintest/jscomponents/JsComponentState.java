@@ -1,9 +1,9 @@
-package com.example.vaadintest;
+package com.example.vaadintest.jscomponents;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.example.vaadintest.JsComponent.ScatterDataPoint;
+import com.example.vaadintest.jscomponents.JsComponent.ScatterDataPoint;
 //import com.example.vaadintest.JsComponent.ScatterDataPoint;
 //import com.example.vaadintest.JsComponent.ScatterDataPoint;
 import com.vaadin.shared.ui.JavaScriptComponentState;

@@ -1,9 +1,9 @@
-package com.example.vaadintest;
+package com.example.vaadintest.jscomponents;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.example.vaadintest.ColorMatrix.AllData;
+import com.example.vaadintest.jscomponents.ColorMatrix.AllData;
 import com.vaadin.shared.ui.JavaScriptComponentState;
 
 public class ColorMatrixState extends JavaScriptComponentState {

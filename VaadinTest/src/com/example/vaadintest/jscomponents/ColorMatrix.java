@@ -1,8 +1,9 @@
-package com.example.vaadintest;
+package com.example.vaadintest.jscomponents;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.example.vaadintest.tools.ImageBuilder;
 import com.vaadin.annotations.JavaScript;
 import com.vaadin.annotations.StyleSheet;
 import com.vaadin.ui.AbstractJavaScriptComponent;
@@ -21,7 +22,7 @@ public class ColorMatrix extends AbstractJavaScriptComponent {
 	ImageBuilder imageBuilder = new ImageBuilder();
 	public AllData allData = new AllData();
 
-	ColorMatrix() {		
+	public ColorMatrix() {		
 	}
 
 	public class AllData {
